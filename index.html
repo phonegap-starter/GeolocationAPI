@@ -6,6 +6,7 @@
     <script type="text/javascript" charset="utf-8" src="cordova-1.6.0.js"></script>
     <script type="text/javascript" charset="utf-8">
 
+    var watchID = null;
     // Wait for Cordova to load
     //
     document.addEventListener("deviceready", onDeviceReady, false);
@@ -13,9 +14,18 @@
     // Cordova is ready
     //
     function onDeviceReady() {
-        navigator.geolocation.getCurrentPosition(onSuccess, onError);
+        navigator.alert('Cordova is ready');
     }
 
+    function getCurrentPosition() {
+        navigator.geolocation.getCurrentPosition(onSuccess, onError);    
+    }
+        
+    function watchPosition() {
+        // Update every 3 seconds
+        var options = { frequency: 3000 };
+        watchID = navigator.geolocation.watchPosition(onSuccess, onError, options);        
+    }
     // onSuccess Geolocation
     //
     function onSuccess(position) {
@@ -40,6 +50,7 @@
     </script>
   </head>
   <body>
-    <p id="geolocation">Finding geolocation...</p>
+    <button id="btnGetCurrentPosition" onclick="getCurrentPosition();">Get Current Position</button> <br>
+    <button id="btnWatchPosition" onclick="watchPosition();">Watch Position</button> <br>      
   </body>
 </html>
